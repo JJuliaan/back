@@ -4,7 +4,7 @@ class ProductManager {
     }
   
     addProduct(product) {
-      if (this.products.find((p) => p.code === product.code)) {
+      if (this.products.find((productos) => productos.code === product.code)) {
         console.log("El producto ya existe");
         return;
       }
@@ -28,7 +28,7 @@ class ProductManager {
     }
   
     getProductById(id) {
-      const product = this.products.find((p) => p.id === id);
+      const product = this.products.find((productos) => productos.id === id);
       if (!product) {
         console.log("Not found");
         return;
