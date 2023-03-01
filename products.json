@@ -1,0 +1,11 @@
+[
+	{
+		"id": 3,
+		"title": "Ultra Prueba",
+		"description": "Prueba",
+		"price": 1000,
+		"thumbnail": "img",
+		"code": 204,
+		"stock": 10
+	}
+]
