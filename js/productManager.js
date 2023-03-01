@@ -23,7 +23,7 @@ class ProductManager {
 
 
       this.products.push(productInfo)
-      await fs.promises.writeFile(this.path, JSON.stringify(this.products, null, '\t'))
+      await fs.promises.appendFile(this.path, JSON.stringify(this.products, null, '\t'))
       console.log('Producto creado con exito');
       console.log(this.id);
       
@@ -44,14 +44,53 @@ class ProductManager {
   }
 
   async getProductsById(id) {
+    const data = await fs.promises.readFile(this.path)
+    const products = JSON.parse(data)
     try {
-      await fs.promises.readFile(this.path, 'utf-8', (error, id) => {
-        const idBuscador = this.products.find((productos) => productos.id === this.products.id)
-      })
+      const product = products.find(p => p.id === id)
+      if (!product) {
+        return "Not Fund"
+      } else {
+        return product
+      }
     } catch (error) {
       console.log(error);
     }
   }
+
+  async updateProduct(id, ...etc) {
+    const data = await fs.promises.readFile(this.path)
+    const products = JSON.parse(data)
+    try {
+      const product = products.find(p => p.id === id)
+      if (!product){
+        return "Not Fund"
+      } else {
+        return product
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+
+  async deleteProduct(id) {
+    const data = await fs.promises.readFile(this.path)
+    const products = JSON.parse(data)
+    try {
+      const product = products.find(p => p.id === id)
+      if (!product){
+        return "Not Fund"
+      } else {
+        fs.promises.unlink(product)
+        console.log("El producto se elimino");
+      }
+    } catch(error) {
+      console.log(error);
+    }
+  }
+
+
 
 
 } 

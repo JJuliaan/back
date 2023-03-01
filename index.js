@@ -1,9 +1,5 @@
 const ProductManager = require("./js/productManager");
-const producto1 = new ProductManager("./products.json");
-const producto2 = new ProductManager("./products.json");
-const producto3 = new ProductManager("./products.json");
-const producto4 = new ProductManager("./products.json");
-const producto5 = new ProductManager("./products.json");
+const producto = new ProductManager("./products.json");
 
 
 const productos = async () => {
@@ -17,10 +13,13 @@ const productos = async () => {
         stock: 10
         
     }
-    await producto3.addProduct(product)
-    const data = await producto3.getProducts()
-    console.log(data);
-    await producto3.getProductsById(3)
+    // await producto.addProduct(product)
+    // const data = await producto.getProducts()
+    // console.log(data);
+    // const result = await producto.getProductsById(2)
+    // console.log(result);
+    const eliminar = await producto.deleteProduct(3)
+    console.log(eliminar);
 }
 
 productos()

@@ -1,11 +1,29 @@
 [
 	{
-		"id": 3,
-		"title": "Ultra Prueba",
-		"description": "Prueba",
+		"id": 1,
+		"title": "Ultra Prueba1",
+		"description": "Prueba1",
 		"price": 1000,
 		"thumbnail": "img",
-		"code": 204,
+		"code": 20,
+		"stock": 10
+	},
+	{
+		"id": 2,
+		"title": "Ultra Prueba2",
+		"description": "Prueba2",
+		"price": 1000,
+		"thumbnail": "img",
+		"code": 20,
+		"stock": 10
+	},
+	{
+		"id": 3,
+		"title": "Ultra Prueba3",
+		"description": "Prueba3",
+		"price": 1000,
+		"thumbnail": "img",
+		"code": 2040,
 		"stock": 10
 	}
 ]
