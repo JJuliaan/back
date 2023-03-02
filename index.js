@@ -13,13 +13,25 @@ const productos = async () => {
         stock: 10
         
     }
-    // await producto.addProduct(product)
+    const product2 = 
+    {
+        title: "Ultra Prueba2",
+        description: "Prueba2",
+        price: 10002,
+        thumbnail: "img",
+        code: 2042,
+        stock: 102
+    }
+    await producto.addProduct(product2)
     // const data = await producto.getProducts()
     // console.log(data);
     // const result = await producto.getProductsById(2)
     // console.log(result);
-    const eliminar = await producto.deleteProduct(3)
-    console.log(eliminar);
+    // const eliminar = await producto.deleteProduct(1)
+    // console.log(eliminar);
+    // const actualizar = await producto.updateProduct(1, {
+    //     name: "hola",price: 1900000
+    // })
 }
 
 productos()

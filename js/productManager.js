@@ -1,15 +1,16 @@
 const fs = require('fs')
 
 class ProductManager {
-  static #id = 0
-  constructor(path) {
-    this.products = []
-    this.path = path
-    this.id = ++ProductManager.#id
-  }
   
+  constructor(path) {
+    this.path = path
+    this.id= 0
+    this.products = JSON.parse(fs.readFileSync(path, 'utf-8'))
+  }
+
   async addProduct(product) {
     try {
+      this.id++
       const { id, title, description, price, thumbnail, code, stock } = product
       const productInfo = {
         id: this.id,
@@ -21,9 +22,8 @@ class ProductManager {
         stock
       }
 
-
       this.products.push(productInfo)
-      await fs.promises.appendFile(this.path, JSON.stringify(this.products, null, '\t'))
+      await fs.promises.writeFile(this.path, JSON.stringify(this.products, null, '\t'))
       console.log('Producto creado con exito');
       console.log(this.id);
       
@@ -58,15 +58,17 @@ class ProductManager {
     }
   }
 
-  async updateProduct(id, ...etc) {
-    const data = await fs.promises.readFile(this.path)
+  async updateProduct(id, uptade) {
+    const data = await fs.promises.readFile(this.path, 'utf-8')
     const products = JSON.parse(data)
     try {
-      const product = products.find(p => p.id === id)
-      if (!product){
+      const product = products.findIndex(p => p.id === id)
+      if (product === -1){
         return "Not Fund"
       } else {
-        return product
+        products[product] = {...products[product], ...uptade}
+        await fs.promises.writeFile(this.path, JSON.stringify(products, null, '\t'))
+        console.log("Producto encontrado y actualizado");
       }
     } catch (error) {
       console.log(error);
@@ -78,11 +80,11 @@ class ProductManager {
     const data = await fs.promises.readFile(this.path)
     const products = JSON.parse(data)
     try {
-      const product = products.find(p => p.id === id)
-      if (!product){
+      const productos = products.filter(p => p.id !== id)
+      if (!productos){
         return "Not Fund"
       } else {
-        fs.promises.unlink(product)
+        await fs.promises.writeFile(this.path, JSON.stringify(productos, null, '\t'))
         console.log("El producto se elimino");
       }
     } catch(error) {
@@ -90,44 +92,7 @@ class ProductManager {
     }
   }
 
-
-
-
 } 
-//   addProduct(product) {
-//     try{ 
-//       this.products.find((productos) => productos.code === product.code)
-//       console.log("El producto ya existe")
-//       return
-//     }
-//     if (
-//       !product.title ||
-//       !product.description ||
-//       !product.price ||
-//       !product.thumbnail ||
-//       !product.code ||
-//       !product.stock
-//     ) {
-//       console.log("Faltan datos")
-//       return;
-//     }
-//     product.id = this.products.length + 1
-//     this.products.push(product)
-//   }
-  
-//   getProducts() {
-//     return this.products
-//   }
-  
-//   getProductById(id) {
-//     const product = this.products.find((productos) => productos.id === id)
-//     if (!product) {
-//       console.log("Not found")
-//       return
-//     }
-//     return product
-//   }
-// }
   
 module.exports = ProductManager
   
