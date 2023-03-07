@@ -1,7 +1,7 @@
 {
   "name": "miproyecto",
-  "version": "1.0.0",
-  "description": "",
+  "version": "0.1.0",
+  "description": "Servidor web",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -16,5 +16,8 @@
   "bugs": {
     "url": "https://github.com/JJuliaan/back/issues"
   },
-  "homepage": "https://github.com/JJuliaan/back#readme"
+  "homepage": "https://github.com/JJuliaan/back#readme",
+  "dependencies": {
+    "express": "^4.18.2"
+  }
 }
