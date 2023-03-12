@@ -4,14 +4,14 @@ class ProductManager {
   
   constructor(path) {
     this.path = path
-    this.id= 0
+    this.id= 20
     this.products = JSON.parse(fs.readFileSync(path, 'utf-8'))
   }
 
   async addProduct(product) {
     try {
       this.id++
-      const { id, title, description, price, thumbnail, code, stock } = product
+      const { id, title, description, price, thumbnail, code, stock, status = true,category } = product
       const productInfo = {
         id: this.id,
         title,
@@ -19,13 +19,28 @@ class ProductManager {
         price,
         thumbnail,
         code,
-        stock
+        stock,
+        status,
+        category
       }
 
-      this.products.push(productInfo)
-      await fs.promises.writeFile(this.path, JSON.stringify(this.products, null, '\t'))
-      console.log('Producto creado con exito');
-      console.log(this.id);
+      if (
+        !title, 
+        !description, 
+        !price,
+        !code,
+        !stock,
+        !status,
+        !category
+        ) {
+        return "Los campos son obligatorios"
+      } else {
+        this.products.push(productInfo)
+        await fs.promises.writeFile(this.path, JSON.stringify(this.products, null, '\t'))
+        console.log('Producto creado con exito');
+        console.log(this.id);
+      }
+
       
     } catch (error) {
       
