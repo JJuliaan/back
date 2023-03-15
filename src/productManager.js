@@ -25,13 +25,12 @@ class ProductManager {
       }
 
       if (
-        !title, 
-        !description, 
-        !price,
-        !code,
-        !stock,
-        !status,
-        !category
+        !productInfo.title, 
+        !productInfo.description, 
+        !productInfo.price,
+        !productInfo.code,
+        !productInfo.stock,
+        !productInfo.category
         ) {
         return "Los campos son obligatorios"
       } else {

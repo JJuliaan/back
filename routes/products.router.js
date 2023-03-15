@@ -1,5 +1,6 @@
 const ProductManager = require("../src/productManager");
 const producto = new ProductManager("../files/products.json")
+const uploader = require("../src/ultis");
 const { Router } = require("express");
 
 const router = Router()
@@ -30,9 +31,11 @@ router.put('/:pid', (req, res) => {
     res.json({message: "Producto actualizado"})
 })
 
-router.post('/', (req,res) => {
+router.post('/',uploader.array('thumbnail') , (req,res) => {
+    if(!req.file) res.status(400).json({status: 'error'})
     const newProduct = req.body
-    console.log(newProduct);
+    newProduct.thumbnail = req.file.path
+    // console.log(newProduct);
     producto.addProduct(newProduct)
     res.json({message: "Producto creado"})
 })

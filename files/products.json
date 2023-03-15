@@ -98,5 +98,35 @@
 		"id": 20,
 		"title": "Grapefruit - Pink",
 		"price": 22
+	},
+	{
+		"id": 21,
+		"title": "julian",
+		"description": "sooy nuevooo",
+		"price": 1234,
+		"code": 8201,
+		"stock": 40,
+		"status": true,
+		"category": "burger"
+	},
+	{
+		"id": 22,
+		"title": "blabla",
+		"description": "142123",
+		"price": "145",
+		"code": "12321",
+		"stock": "55",
+		"status": true,
+		"category": "146"
+	},
+	{
+		"id": 23,
+		"title": "blabla9",
+		"description": "1421238",
+		"price": "1452",
+		"code": "123217",
+		"stock": "554",
+		"status": true,
+		"category": "1460"
 	}
 ]
