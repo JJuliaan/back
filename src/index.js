@@ -31,10 +31,17 @@ const httpServer = app.listen(port, () => {
 
 const io = new Server(httpServer)
 
-io.on('connection', socket => {
+io.on('connection',async socket => {
     console.log(socket.id);
     console.log("Ciente conectado")
 
-})
+    const products = await producto.getProducts()
+    io.emit('listProducts', { products })
 
-module.exports = io
+    socket.on('newProduct', product => {
+        console.log(product)
+        producto.addProduct(product)
+        socket.broadcast.emit('listProducts', product)
+    })
+
+})

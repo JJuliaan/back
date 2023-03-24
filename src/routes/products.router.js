@@ -2,7 +2,6 @@ const ProductManager = require("../productManager")
 const producto = new ProductManager("./files/products.json")
 const uploader = require("../ultis")
 const { Router } = require("express")
-const io = require("../index")
 
 const router = Router()
 
@@ -34,18 +33,12 @@ router.put('/:pid', (req, res) => {
 })
 
 router.post('/',uploader.array('thumbnail') , (req,res) => {
+    if(!req.file) res.status(400).json({status: 'error'})
     res.render('index.handlebars')
-    io.on('connection', socket => {
-        socket.on('newProduct', product => {
-            console.log(product)
-            if(!req.file) res.status(400).json({status: 'error'})
-            product = req.body
-            product.thumbnail = req.file.path
-            producto.addProduct(product)
-            socket.broadcast.emit('listProducts', product)
-        })
-    })
+    const newProduct = req.body
+    newProduct.thumbnail = req.file.path
     // console.log(newProduct);
+    producto.addProduct(newProduct)
     // res.json({message: "Producto creado"})
 })
 
