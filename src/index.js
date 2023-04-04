@@ -3,11 +3,14 @@ const handlebars = require('express-handlebars')
 const { Server } = require('socket.io') 
 
 const ProductManager = require("./productManager");
-const producto = new ProductManager("./files/products.json")
+const path = require("path")
+const producto = new ProductManager(path.join(__dirname, "./files/products.json"))
+
 
 const morgan = require('morgan');
 
 const router = require('./routerApp');
+const dbConnect = require('../db');
 
 const port = 8080
 const app = express()
@@ -24,6 +27,8 @@ app.set('views', __dirname + '/views')
 app.set('view engine', 'handlebars')
 
 router(app)
+
+dbConnect()
 
 const httpServer = app.listen(port, () => {
     console.log(`Server running at ${port}`);

@@ -11,17 +11,17 @@ socket.on("listProducts", (productos) => {
   });
   
   const createProductCard = (prod) => {
-    const div = document.createElement("div");
-    div.classList.add("product-card");
+    const div = document.createElement("div")
+    div.classList.add("product-card")
     div.innerHTML = `
-      <img src="${prod.thumbnail}" alt="${prod.title}" />
-      <h2>${prod.title}</h2>
-      <p>${prod.description}</p>
+      <img class="img" src="${prod.thumbnail}" alt="${prod.title}" />
+      <h2 class="title">${prod.title}</h2>
+      <p class="description">${prod.description}</p>
       <p class="price">$${prod.price}</p>
-      <p>Code: ${prod.code}</p>
-      <p>Stock: ${prod.stock}</p>
-      <p>Status: ${prod.status}</p>
-      <p>Category: ${prod.category}</p>
-    `;
-    return div;
-  };
+      <p class="code">Code: ${prod.code}</p>
+      <p class="stock">Stock: ${prod.stock}</p>
+      <p class="status">Status: ${prod.status}</p>
+      <p class="category">Category: ${prod.category}</p>
+    `
+    return div
+  }
