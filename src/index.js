@@ -1,34 +1,10 @@
-const express = require('express');
-const handlebars = require('express-handlebars')
-const { Server } = require('socket.io') 
-
-const ProductManager = require("./productManager");
+const app = require('./app')
+const ProductManager = require("./fileManager/productManager");
 const path = require("path")
 const producto = new ProductManager(path.join(__dirname, "./files/products.json"))
 
-
-const morgan = require('morgan');
-
-const router = require('./routerApp');
-const dbConnect = require('../db');
-
-const port = 8080
-const app = express()
-
-console.log(__dirname);
-app.use(express.json())
-app.use(express.urlencoded({ extended: true }))
-app.use(express.static(__dirname + '/public'))
-
-app.use(morgan('dev'))
-
-app.engine('handlebars', handlebars.engine())
-app.set('views', __dirname + '/views')
-app.set('view engine', 'handlebars')
-
-router(app)
-
-dbConnect()
+const { port } = require('./config/app.config')
+const { Server } = require('socket.io') 
 
 const httpServer = app.listen(port, () => {
     console.log(`Server running at ${port}`);
