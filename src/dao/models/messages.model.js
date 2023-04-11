@@ -1,8 +1,8 @@
 const mongoose = require('mongoose')
 
-const booksCollection = 'book'
+const messagesCollection = 'message'
 
-const booksSchema = new mongoose.Schema({
+const messagesSchema = new mongoose.Schema({
     message: {
         type: String,
         require: true
@@ -10,6 +10,6 @@ const booksSchema = new mongoose.Schema({
     image: String
 })
 
-const Messages = mongoose.model(booksCollection, booksSchema)
+const Messages = mongoose.model(messagesCollection, messagesSchema)
 
 module.exports = Messages
