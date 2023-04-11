@@ -1,12 +1,7 @@
 const ProductManager = require("../../fileManager/productManager")
 const path = require("path")
-<<<<<<< HEAD:src/routes/products.router.js
-const producto = new ProductManager(path.join(__dirname, "../files/products.json"))
-const uploader = require("../ultis")
-=======
 const producto = new ProductManager(path.join(__dirname, "../../files/products.json"))
 const uploader = require("../../ultis")
->>>>>>> Soluciones:src/dao/fileSystem/products.routerFile.js
 const { Router } = require("express")
 
 const router = Router()

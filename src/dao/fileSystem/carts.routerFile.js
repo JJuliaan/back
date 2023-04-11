@@ -1,12 +1,6 @@
-<<<<<<< HEAD:src/routes/carts.router.js
-const cartManager = require('../fileManager/cartManager')
-const path = require("path")
-const cart = new cartManager(path.join(__dirname, "../files/cartsProducts.json"))
-=======
 const cartManager = require('../../fileManager/cartManager')
 const path = require('path')
 const cart = new cartManager(path.join(__dirname, '../../files/cartsProducts.json'))
->>>>>>> Soluciones:src/dao/fileSystem/carts.routerFile.js
 const { Router } = require('express')
 
 const router = Router()
