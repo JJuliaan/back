@@ -1,5 +1,6 @@
 const cartManager = require('../fileManager/cartManager')
-const cart = new cartManager("./files/cartsProducts.json")
+const path = require("path")
+const cart = new cartManager(path.join(__dirname, "../files/cartsProducts.json"))
 const { Router } = require('express')
 
 const router = Router()
