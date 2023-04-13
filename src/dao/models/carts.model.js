@@ -3,12 +3,17 @@ const mongoose = require('mongoose')
 const cartsCollection = 'cart'
 
 const cartsSchema = new mongoose.Schema({
-    products: [
-        {
-            productId: Number,
-            quantity: Number
+    cart:{
+
+        productId: {
+            type:Number,
+            required: true
+        },
+        quantity: {
+            type:Number,
+            required: true
         }
-    ]
+    }
 })
 
 const Carts = mongoose.model(cartsCollection, cartsSchema)
