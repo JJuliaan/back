@@ -1,7 +1,7 @@
 const ProductManager = require("../../fileManager/productManager")
 const path = require("path")
 const producto = new ProductManager(path.join(__dirname, "../../files/products.json"))
-const uploader = require("../../ultis")
+const uploader = require("../../ultis/multer.ultis")
 const { Router } = require("express")
 
 const router = Router()
