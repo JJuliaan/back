@@ -4,10 +4,10 @@ const productsRouterFile = require('../dao/fileSystem/products.routerFile')
 
 //Controladores de mongoose
 const realTimeRouter = require('../dao/fileSystem/realTime.router')
-const usersController = require('../dao/mongoDB/users.controller')
-const productsController = require('../dao/mongoDB/products.controller')
-const cartsController = require('../dao/mongoDB/carts.controller')
-const messagesController = require('../dao/mongoDB/message.controller')
+const usersController = require('../dao/DBController/users.controller')
+const productsController = require('../dao/DBController/products.controller')
+const cartsController = require('../dao/DBController/carts.controller')
+const messagesController = require('../dao/DBController/message.controller')
 
 const router = app => {
     app.use('/api/products', productsRouterFile)

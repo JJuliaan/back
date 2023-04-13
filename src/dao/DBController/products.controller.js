@@ -1,16 +1,32 @@
 const { Router } = require('express')
-const Products = require('../models/products.model')
 const uploader = require('../../ultis/multer.ultis')
+const FileManager = require('../FileManager.daos')
+const ProductsDao = require('../products.dao')
 const router = Router()
+const fileManager = new FileManager()
+const Products = new ProductsDao()
+
+router.get('/loadItems', async (req, res) =>{
+    try {
+        const products = await fileManager.loadItems()
+
+        const newProducts = await Products.insertMany(products)
+
+        res.json({message: newProducts})
+    } catch (error) {
+        res.json({error})
+    }
+})
 
 router.get('/', async (req, res) => {
     try {
         const { limit } = req.query
-        const products = await Products.find()
+        const products = await Products.findAll()
         if(limit){
             res.json({products: products.slice(0, limit)})
         } else {
-            res.render('index.handlebars')
+            res.json({products})
+            // res.render('index.handlebars')
         }
 
     } catch (error) {
@@ -23,8 +39,8 @@ router.get('/:pid', async (req, res) => {
     try {
         const pid = req.params.pid
     
-        const buscador = await Products.findOne({_id: pid})
-    
+        const buscador = await Products.findOneId(pid)
+
         res.json({message: buscador})
         
     } catch (error) {
@@ -33,51 +49,31 @@ router.get('/:pid', async (req, res) => {
     }
 })
 
-router.post('/',uploader.single('thumbnail'), async (req, res) => {
+router.post('/',uploader.single('file'), async (req, res) => {
     try {
         if(!req.file) return res.status(400).json({status: "error"})
-        const { title, price, description, thumbnail, code, stock, status, category} = req.body
-        const newProduct = {
-            title, 
-            price, 
-            description, 
-            thumbnail, 
-            code, 
-            stock, 
-            status, 
-            category
-        }
-
-        if(!title || !price || !description || !thumbnail || !code || !stock || !category) return res.json({message: "Faltan datos"})
+        const newProduct = req.body
+        newProduct.thumbnail = req.file.filename
 
         const newsProducts = await Products.create(newProduct)
+
+
         res.status(201).json({
             message: "Producto creado",
             product: newsProducts
     })
 
     } catch (error) {
-        console.log(error.message)
-        res.status(400).json({error: 'El Producto no pudo ser creado'})
+        res.status(400).json({error})
     }
 })
 
 router.put('/:pid', async (req, res) => {
     try {
         const pid = req.params.pid
-        const { title, price, description, thumbnail, code, stock, status, category} = req.body
-        const updateProduct = {
-            title, 
-            price, 
-            description, 
-            thumbnail, 
-            code, 
-            stock, 
-            status, 
-            category
-        }
-
-        const productUpdate = await Products.updateOne({_id: pid}, updateProduct)
+        const updateProduct = req.body
+        
+        const productUpdate = await Products.updateOne(pid, updateProduct)
         res.json({ message: productUpdate})
 
     } catch (error) {
