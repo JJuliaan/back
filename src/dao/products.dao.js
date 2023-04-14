@@ -4,7 +4,19 @@ const Products = require("./models/products.model");
 class ProductsDao {
     constructor() {}
 
+    async insertMany(products) {
+        return await Products.insertMany(products)
+    }
+
     async findAll() {
+        try {
+            return await Products.find()
+        } catch (error) {
+            return error
+        }
+    }
+
+    async find() {
         try {
             return await Products.find({status: true})
         } catch (error) {
@@ -21,7 +33,7 @@ class ProductsDao {
     }
 
     async create(product) {
-        const { title, price, description, code, stock, status, category} = product
+        const { title, price, description, thumbnail, code, stock, status, category} = product
         const newProduct = {
             title, 
             price, 
@@ -38,7 +50,7 @@ class ProductsDao {
         return await Products.create(newProduct)
     }
 
-    async uptadeOne(id, update) {
+    async updateOne(id, update) {
         const { title, price, description, thumbnail, code, stock, status, category} = update
         const updateProduct = {
             title, 
@@ -53,6 +65,15 @@ class ProductsDao {
 
         return await Products.updateOne({_id: id}, updateProduct)
     }
+
+    async delete(id) {
+        return Products.updateOne({_id: id}, {status: false})
+    }
+
+    async deleteAll() {
+        return await Products.deleteMany()
+    }
+    
 }
 
 module.exports = ProductsDao

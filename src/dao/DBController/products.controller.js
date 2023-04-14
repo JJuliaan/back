@@ -6,6 +6,11 @@ const router = Router()
 const fileManager = new FileManager()
 const Products = new ProductsDao()
 
+router.delete('/deleteAll', async (req, res) => {
+    await Products.deleteAll()
+    res.json({ message: 'TODO ELIMINADO'})
+})
+
 router.get('/loadItems', async (req, res) =>{
     try {
         const products = await fileManager.loadItems()
@@ -14,14 +19,19 @@ router.get('/loadItems', async (req, res) =>{
 
         res.json({message: newProducts})
     } catch (error) {
+        console.log(error.message);
         res.json({error})
     }
+})
+
+router.get('/all', async (req, res) => {
+    res.json({poducts: await Products.findAll()})
 })
 
 router.get('/', async (req, res) => {
     try {
         const { limit } = req.query
-        const products = await Products.findAll()
+        const products = await Products.find()
         if(limit){
             res.json({products: products.slice(0, limit)})
         } else {
@@ -52,8 +62,17 @@ router.get('/:pid', async (req, res) => {
 router.post('/',uploader.single('file'), async (req, res) => {
     try {
         if(!req.file) return res.status(400).json({status: "error"})
-        const newProduct = req.body
-        newProduct.thumbnail = req.file.filename
+        const { title, price, description, code, stock, status, category } = req.body
+        const newProduct = {
+            title,
+            price,
+            description,
+            code,
+            stock,
+            status,
+            category,
+            thumbnail: req.file.filename
+        }
 
         const newsProducts = await Products.create(newProduct)
 
@@ -61,9 +80,10 @@ router.post('/',uploader.single('file'), async (req, res) => {
         res.status(201).json({
             message: "Producto creado",
             product: newsProducts
-    })
+        })
 
     } catch (error) {
+        console.log(error.message);
         res.status(400).json({error})
     }
 })
@@ -72,8 +92,8 @@ router.put('/:pid', async (req, res) => {
     try {
         const pid = req.params.pid
         const updateProduct = req.body
-        
-        const productUpdate = await Products.updateOne(pid, updateProduct)
+
+        const productUpdate = await Products.updateOne({_id: pid}, updateProduct)
         res.json({ message: productUpdate})
 
     } catch (error) {
@@ -85,10 +105,10 @@ router.delete('/:pid', async (req, res) => {
     try {
         const pid = req.params.pid
 
-        const deleteProduct = await Products.updateOne({_id: pid}, {status: false})
+        const deleteProduct = await Products.delete(pid)
         res.json({message: "Producto eliminado", products: deleteProduct})
     } catch (error) {
-        
+        console.log(error.message);
     }
 })
 
