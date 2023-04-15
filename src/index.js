@@ -2,6 +2,10 @@ const app = require('./app')
 const ProductManager = require("./dao/fileManager/productManager");
 const path = require("path")
 const producto = new ProductManager(path.join(__dirname, "./files/products.json"))
+const MessageDao = require('./dao/message.dao')
+const Messages = new MessageDao()
+
+const messages = []
 
 
 const { port } = require('./config/app.config')
@@ -26,16 +30,21 @@ io.on('connection', async socket => {
         socket.broadcast.emit('listProducts', product)
     })
     
-    console.log(`Cliente conectado con id: ${socket.id}`)
+    console.log('Cliente conectado en ' + socket.id);
 
-    socket.on('newUser', user => {
-        socket.broadcast.emit('userConnected', user)
-        socket.emit('messageLogs', messages)
+    // socket.on('message', data =>{
+    //     messages.push(data) //Guarda los mensajes que recibe
+    //     io.emit('messageLogs', messages) //Muestra en pantalla los mensajes guardados desde el array / DB
+    // }) 
+
+    socket.on('message', async ({user,message}) =>{
+        const chat = await Messages.create(user,message);
+        io.emit('messageFinal', chat)
     })
 
-    socket.on('message', data => {
-        messages.push(data)
-        io.emit('messageLogs', messages)
+    socket.on('newUser', user =>{
+        socket.broadcast.emit('userConnected', user) //Apenas se conecta uno nuevo, avisa a los demas que se conectó
+        socket.emit('messageLogs', messages) //Apenas se conecta uno nuevo, retorna los mensajes guardados en el array / DB
     })
 
 
