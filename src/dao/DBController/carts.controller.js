@@ -49,9 +49,8 @@ router.post('/', async (req, res) => {
     }
 })
 
-router.put('/:cid/cart/:pid', async (req, res) => {
+router.put('/:cid', async (req, res) => {
     try {
-        const pid = req.params.pid
         const cid = req.params.cid
         const { title, description, code, price, category, quantity } = req.body
         const cartUpdate = {
@@ -63,19 +62,16 @@ router.put('/:cid/cart/:pid', async (req, res) => {
             quantity
         }
 
-        const cart = await Carts.findOne(cid)
+        const cart = await Carts.findOneId(cid)
         if (!cart) {
             return res.status(404).json({ message: "Carrito no encontrado" })
         }
 
         const updateResult = await Carts.updateOne(
-            { _id: cid, "cart._id" : pid },
+            { _id: cid, "cart.code" : code },
             { $set: { "cart.$": cartUpdate } }
         )
 
-        if (updateResult.nModified === 0) {
-            return res.json({ message: "El producto no existe en el carrito" })
-        }
 
         return res.json({ message: "Producto actualizado correctamente" })
 

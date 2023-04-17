@@ -3,6 +3,10 @@ const Carts = require('./models/carts.model')
 class CartsDao {
     constructor() {}
 
+    async findOneId(cid) {
+        return await Carts.findById(cid)
+    }
+
     async findAll() {
         return await Carts.find()
     }
