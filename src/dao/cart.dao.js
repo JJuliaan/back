@@ -12,25 +12,11 @@ class CartsDao {
     }
 
     async create(newCart) {
-        const {cart, productId, quantity} = newCart
-        const newCartInfo = {
-            cart:{
-                productId,
-                quantity
-            }
-        }
-        return await Carts.create(newCartInfo)
+        return await Carts.create(newCart)
     }
 
     async updateOne(id, update) {
-        const {cart, productId, quantity} = update
-        const updateCartInfo = {
-            cart:{
-                productId,
-                quantity
-            }
-        }
-        return await Carts.updateOne({_id: id}, updateCartInfo)
+        return await Carts.updateOne({_id: id}, update)
     }
 
     async delete() {
