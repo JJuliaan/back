@@ -62,7 +62,7 @@ router.put('/:cid', async (req, res) => {
             quantity
         }
 
-        const cart = await Carts.findOneId(cid)
+        const cart = await Carts.findOne(cid)
         if (!cart) {
             return res.status(404).json({ message: "Carrito no encontrado" })
         }
