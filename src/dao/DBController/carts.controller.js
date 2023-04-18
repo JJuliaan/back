@@ -30,55 +30,25 @@ router.get('/:cid', async (req, res) => {
 
 router.post('/', async (req, res) => {
     try {
-        const { title, description, code, price, category, quantity } = req.body
-        const newCartItem = {
-            title,
-            description,
-            code,
-            price,
-            category,
-            quantity
-        }
-        if (!title || !description || !code || !price || !category || !quantity) return res.json({ message: "Datos insuficientes" })
 
-        const newCart = await Carts.create({ cart: [newCartItem] })
-        return res.json({ message: newCart })
-
+        res.json({ message: await Carts.create() })
     } catch (error) {
         res.json({ message: error })
     }
 })
 
-router.put('/:cid/cart/:pid', async (req, res) => {
+router.patch('/:cid', async (req, res) => {
     try {
-        const pid = req.params.pid
         const cid = req.params.cid
-        const { title, description, code, price, category, quantity } = req.body
-        const cartUpdate = {
-            title,
-            description,
-            code,
-            price,
-            category,
-            quantity
-        }
+        const { product } = req.body
 
-        const cart = await Carts.findOne(cid)
-        if (!cart) {
-            return res.status(404).json({ message: "Carrito no encontrado" })
-        }
+        const newProduct = await Carts.findOne({ _id: cid })
+        newProduct.carts.push({ product })
+        console.log(newProduct);
 
-        const updateResult = await Carts.updateOne(
-            { _id: cid, "cart._id" : pid },
-            { $set: { "cart.$": cartUpdate } }
-        )
+        const nuevo = await Carts.updateOne({ _id: cid }, newProduct)
 
-        if (updateResult.nModified === 0) {
-            return res.json({ message: "El producto no existe en el carrito" })
-        }
-
-        return res.json({ message: "Producto actualizado correctamente" })
-
+        res.json({ message: nuevo })
     } catch (error) {
         res.status(500).json({ message: "Error al actualizar el producto en el carrito" })
         console.log(error.message);

@@ -4,11 +4,11 @@ class CartsDao {
     constructor() {}
 
     async findAll() {
-        return await Carts.find()
+        return await Carts.find().populate('carts.product')
     }
 
     async findOne(id) {
-        return await Carts.findOne({_id: id})
+        return await Carts.findOne({_id: id}).populate('carts.product')
     }
 
     async create(newCart) {
