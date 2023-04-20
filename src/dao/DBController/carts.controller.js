@@ -19,9 +19,9 @@ router.get('/all', async (req, res) => {
 router.get('/:cid', async (req, res) => {
     try {
         const cid = req.params.cid
-        const buscador = await Carts.findOne(cid)
+        const cart = await Carts.findById(cid)
 
-        res.json({ buscador })
+        res.render('cart.handlebars',{ cart })
     } catch (error) {
         console.log(error)
     }
@@ -30,30 +30,63 @@ router.get('/:cid', async (req, res) => {
 
 router.post('/', async (req, res) => {
     try {
-
         res.json({ message: await Carts.create() })
     } catch (error) {
         res.json({ message: error })
     }
 })
 
-router.patch('/:cid', async (req, res) => {
+router.post('/:cid/:pid', async (req, res) => {
     try {
         const cid = req.params.cid
-        const { product } = req.body
+        const pid = req.params.pid
 
-        const newProduct = await Carts.findOne({ _id: cid })
-        newProduct.cart.push({ product })
-        console.log(newProduct);
+        const newProduct = await Carts.agregateProduct(cid, pid)
 
-        const updateResult = await Carts.updateOne({ _id: cid}, newProduct)
-        res.json({message: updateResult})
+        res.json({ newProduct })
     } catch (error) {
         console.log(error.message);
     }
 })
 
+router.put('/:cid/products/:pid', async (req, res) => {
+    try {
 
+        const cid = req.params.cid
+        const pid = req.params.pid
+        const quantity = req.body.quantity
 
+        const newCantidad = await Carts.actualizarCantidad(cid, pid, quantity)
+        res.json({ message: 'Producto actualizado', newCantidad })
+    } catch (error) {
+        res.json({ error })
+    }
+})
 
+router.delete('/:cid', async (req, res) => {
+
+    try {
+        const cid = req.params.cid
+
+        const borrar = await Carts.borrarProduct(cid)
+        res.json({ message: 'Carrito Borrado', borrar })
+
+    } catch (error) {
+        res.json({ error })
+    }
+})
+
+router.delete('/:cid/products/:pid', async (req, res) => {
+    try {
+        const cid = req.params.cid
+        const pid = req.params.pid
+        const borrar = await Carts.borrarOne(cid, pid)
+
+        res.json({ borrar })
+
+    } catch (error) {
+        res.json({ error })
+    }
+
+})
 module.exports = router
