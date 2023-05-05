@@ -1,5 +1,6 @@
-const UsersDao = require('./models/usersDB.model')
+const userDao = require('./models/usersDB.model')
 const Cart = require('./models/carts.model')
+const { createHash } = require('../ultis/cryptPassword')
 
 class UsuariosDB {
     constructor() { }
@@ -9,18 +10,21 @@ class UsuariosDB {
             const { first_name, email, password } = usuario
 
             let role = 'usuario'
+
             if (email === 'admin@gmail.com' && password === 'admin') {
                 role = 'administrador'
             }
-
+            // console.log(usuario);
             const newUsuarioInfo = {
                 first_name,
                 email,
-                password,
+                password: createHash(password),
                 role
             }
 
-            const user = await UsersDao.create(newUsuarioInfo)
+            const user = await userDao.create(newUsuarioInfo)
+            console.log(newUsuarioInfo)
+            console.log('entro')
 
             const cart = new Cart({
                 userId: user._id
@@ -28,7 +32,7 @@ class UsuariosDB {
 
             await cart.save()
 
-            return user
+            return {user, cart}
 
         } catch (error) {
             return error

@@ -19,6 +19,7 @@
   "homepage": "https://github.com/JJuliaan/back#readme",
   "dependencies": {
     "@handlebars/allow-prototype-access": "^1.0.5",
+    "bcrypt": "^5.1.0",
     "bootstrap": "^5.2.3",
     "connect-mongo": "^5.0.0",
     "cookie-parser": "^1.4.6",

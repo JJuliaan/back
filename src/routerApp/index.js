@@ -1,7 +1,7 @@
 //Controladores de Files
-const cartsRouterFile = require('../dao/fileSystem/carts.routerFile')
-const productsRouterFile = require('../dao/fileSystem/products.routerFile')
-const realTimeRouter = require('../dao/fileSystem/realTime.router')
+const cartsRouterFile = require('../fsMnager/fileSystem/carts.routerFile')
+const productsRouterFile = require('../fsMnager/fileSystem/products.routerFile')
+const realTimeRouter = require('../fsMnager/fileSystem/realTime.router')
 
 //Controladores de mongoose
 const usersControllerFile = require('../dao/DBController/usersFile.controller')

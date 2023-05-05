@@ -1,7 +1,7 @@
 const { Router } = require('express')
 const router = Router()
-const UsersDao = require('../usersDB.dao')
-const Users = new UsersDao()
+const UsuariosDB = require('../usersDB.dao')
+const Users = new UsuariosDB()
 const privateAccess = require('../../middlewares/privateAccess.middlewares')
 const publicAccess = require('../../middlewares/publicAccess.middlewars')
 
@@ -14,15 +14,21 @@ router.get('/', publicAccess, async (req, res) => {
 router.post('/', async (req, res) => {
     try {
 
-        const usuario = req.body
+        const { first_name, email, password } = req.body
+
+        const usuario = {
+            first_name,
+            email,
+            password
+        }
 
         const newUsuario = await Users.crearUsuario(usuario)
 
-        res.status(201).json({status: 'succes', message: newUsuario})
+        res.status(201).json({Status: 'succes', message: newUsuario})
 
     } catch (error) {
         console.log(error.message);
-        res.status(500).json({status: 'error', error: 'Internal server error'})
+        res.status(500).json({Status: 'error', error: 'Internal server error'})
 
     }
 })

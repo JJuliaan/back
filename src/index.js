@@ -1,5 +1,5 @@
 const app = require('./app')
-const ProductManager = require("./dao/fileManager/productManager");
+const ProductManager = require("./fsMnager/fileManager/productManager");
 const path = require("path")
 const producto = new ProductManager(path.join(__dirname, "./files/products.json"))
 const MessageDao = require('./dao/message.dao')

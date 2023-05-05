@@ -1,7 +1,7 @@
-const signupForm = document.getElementById('signup-form');
+const signupForm = document.getElementById('signup-form')
 
 signupForm.addEventListener('submit', (event) => {
-    event.preventDefault();
+    event.preventDefault()
 
     const data = new FormData(signupForm)
     const obj = {}
@@ -25,4 +25,4 @@ signupForm.addEventListener('submit', (event) => {
     .catch(error => console.log(error.message))
 
 
-});
+})
