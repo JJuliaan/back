@@ -9,6 +9,7 @@ const hbs = handlebars.create({
 const cookieParser = require('cookie-parser')
 const router = require('./routerApp')
 const dbConnect = require('../db')
+const passport = require('passport');
 const { dbAdmin, dbPassword, dbHost, dbName } = require('./config/db.config')
 
 const app = express()
@@ -16,6 +17,7 @@ const app = express()
 
 const morgan = require('morgan');
 const session = require('express-session');
+const initializePassport = require('./config/passport.config');
 
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
@@ -38,6 +40,10 @@ app.use(session({
     resave: false,
     saveUninitialized: false
 }))
+
+initializePassport()
+app.use(passport.initialize())
+app.use(passport.session())
 
 router(app)
 dbConnect()

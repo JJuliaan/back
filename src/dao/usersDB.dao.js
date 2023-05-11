@@ -23,8 +23,8 @@ class UsuariosDB {
             }
 
             const user = await userDao.create(newUsuarioInfo)
-            console.log(newUsuarioInfo)
-            console.log('entro')
+            // console.log(newUsuarioInfo)
+            // console.log('entro')
 
             const cart = new Cart({
                 userId: user._id
@@ -32,7 +32,7 @@ class UsuariosDB {
 
             await cart.save()
 
-            return {user, cart}
+            return user
 
         } catch (error) {
             return error

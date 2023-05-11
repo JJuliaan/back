@@ -1,7 +1,8 @@
 const { Router } = require('express')
-const router = Router()
 const UsuariosDB = require('../usersDB.dao')
+const passport = require('passport')
 const Users = new UsuariosDB()
+const router = Router()
 const privateAccess = require('../../middlewares/privateAccess.middlewares')
 const publicAccess = require('../../middlewares/publicAccess.middlewars')
 
@@ -11,27 +12,23 @@ router.get('/', publicAccess, async (req, res) => {
 
 
 
-router.post('/', async (req, res) => {
+router.post('/', passport.authenticate('register', {failureRedirect: '/users/failregister'}), async (req, res) => {
     try {
 
-        const { first_name, email, password } = req.body
-
-        const usuario = {
-            first_name,
-            email,
-            password
-        }
-
-        const newUsuario = await Users.crearUsuario(usuario)
-
-        res.status(201).json({Status: 'succes', message: newUsuario})
+        res.status(201).json({Status: 'succes', message: 'usuario registrado'})
 
     } catch (error) {
         console.log(error.message);
         res.status(500).json({Status: 'error', error: 'Internal server error'})
-
+        console.log(error.message);
     }
 })
+
+router.get('/failregister', (req, res) => {
+    console.log('falló estrategia de registro!')
+  
+    res.json({ error: 'Failed register' })
+  })
 
 
 
